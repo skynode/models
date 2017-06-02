@@ -1,7 +1,10 @@
 # Description:
 #   Contains files for loading, training and evaluating TF-Slim-based models.
 
-package(default_visibility = [":internal"])
+package(default_visibility = [
+    ":internal",
+    "//domain_adaptation:__subpackages__",
+])
 
 licenses(["notice"])  # Apache 2.0
 
@@ -164,25 +167,50 @@ py_library(
         ":inception_v1",
         ":inception_v2",
         ":inception_v3",
+        ":inception_v4",
     ],
+)
+
+py_library(
+    name = "inception_utils",
+    srcs = ["nets/inception_utils.py"],
+    srcs_version = "PY2AND3",
 )
 
 py_library(
     name = "inception_v1",
     srcs = ["nets/inception_v1.py"],
     srcs_version = "PY2AND3",
+    deps = [
+        ":inception_utils",
+    ],
 )
 
 py_library(
     name = "inception_v2",
     srcs = ["nets/inception_v2.py"],
     srcs_version = "PY2AND3",
+    deps = [
+        ":inception_utils",
+    ],
 )
 
 py_library(
     name = "inception_v3",
     srcs = ["nets/inception_v3.py"],
     srcs_version = "PY2AND3",
+    deps = [
+        ":inception_utils",
+    ],
+)
+
+py_library(
+    name = "inception_v4",
+    srcs = ["nets/inception_v4.py"],
+    srcs_version = "PY2AND3",
+    deps = [
+        ":inception_utils",
+    ],
 )
 
 py_library(
@@ -213,6 +241,15 @@ py_test(
     name = "inception_v3_test",
     size = "large",
     srcs = ["nets/inception_v3_test.py"],
+    shard_count = 3,
+    srcs_version = "PY2AND3",
+    deps = [":inception"],
+)
+
+py_test(
+    name = "inception_v4_test",
+    size = "large",
+    srcs = ["nets/inception_v4_test.py"],
     shard_count = 3,
     srcs_version = "PY2AND3",
     deps = [":inception"],

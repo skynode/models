@@ -41,6 +41,7 @@ networks_map = {'alexnet_v2': alexnet.alexnet_v2,
                 'inception_v1': inception.inception_v1,
                 'inception_v2': inception.inception_v2,
                 'inception_v3': inception.inception_v3,
+                'inception_v4': inception.inception_v4,
                 'inception_resnet_v2': inception.inception_resnet_v2,
                 'lenet': lenet.lenet,
                 'resnet_v1_50': resnet_v1.resnet_v1_50,
@@ -62,6 +63,7 @@ arg_scopes_map = {'alexnet_v2': alexnet.alexnet_v2_arg_scope,
                   'inception_v1': inception.inception_v3_arg_scope,
                   'inception_v2': inception.inception_v3_arg_scope,
                   'inception_v3': inception.inception_v3_arg_scope,
+                  'inception_v4': inception.inception_v4_arg_scope,
                   'inception_resnet_v2':
                   inception.inception_resnet_v2_arg_scope,
                   'lenet': lenet.lenet_arg_scope,
@@ -95,10 +97,10 @@ def get_network_fn(name, num_classes, weight_decay=0.0, is_training=False):
   """
   if name not in networks_map:
     raise ValueError('Name of network unknown %s' % name)
-  arg_scope = arg_scopes_map[name](weight_decay=weight_decay)
   func = networks_map[name]
   @functools.wraps(func)
   def network_fn(images):
+    arg_scope = arg_scopes_map[name](weight_decay=weight_decay)
     with slim.arg_scope(arg_scope):
       return func(images, num_classes, is_training=is_training)
   if hasattr(func, 'default_image_size'):
