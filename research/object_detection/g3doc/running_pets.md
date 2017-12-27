@@ -81,7 +81,7 @@ Oxford-IIIT Pet dataset into TFRecords. Run the following commands from the
 
 ``` bash
 # From tensorflow/models/research/
-python object_detection/create_pet_tf_record.py \
+python object_detection/dataset_tools/create_pet_tf_record.py \
     --label_map_path=object_detection/data/pet_label_map.pbtxt \
     --data_dir=`pwd` \
     --output_dir=`pwd`
@@ -298,10 +298,11 @@ python object_detection/export_inference_graph.py \
     --input_type image_tensor \
     --pipeline_config_path object_detection/samples/configs/faster_rcnn_resnet101_pets.config \
     --trained_checkpoint_prefix model.ckpt-${CHECKPOINT_NUMBER} \
-    --output_directory output_inference_graph.pb
+    --output_directory exported_graphs
 ```
 
-Afterwards, you should see a graph named `output_inference_graph.pb`.
+Afterwards, you should see a directory named `exported_graphs` containing the
+SavedModel and frozen graph.
 
 ## What's Next
 
